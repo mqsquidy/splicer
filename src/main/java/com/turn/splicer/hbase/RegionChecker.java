@@ -18,6 +18,7 @@ package com.turn.splicer.hbase;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
@@ -31,7 +32,7 @@ public class RegionChecker implements Closeable {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RegionChecker.class);
 
-	public static int METRIC_WIDTH = 4;
+	public static int METRIC_WIDTH = 3;
 	public static int TS_HOUR_WIDTH = 4;
 
 	private final HTable table;
@@ -58,6 +59,8 @@ public class RegionChecker implements Closeable {
 		final byte[] endRowKey = new byte[METRIC_WIDTH + TS_HOUR_WIDTH];
 
 		byte[] metricKey = MetricsCache.get().getMetricKey(metric);
+		LOG.debug("{}",metricKey.length);
+		LOG.debug(Arrays.toString(metricKey));
 
 		System.arraycopy(metricKey, 0, startRowKey, 0, METRIC_WIDTH);
 		System.arraycopy(metricKey, 0, endRowKey, 0, METRIC_WIDTH);
