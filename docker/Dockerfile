@@ -24,5 +24,6 @@ ADD	      resources $WORKDIR/resources/
 
 WORKDIR   $WORKDIR
 
+RUN       ln -sf /dev/stdout $LOGDIR/tsdb-splicer.log
 #ENTRYPOINT /bin/bash -c "java -server -classpath $WORKDIR/resources:$WORKDIR:$WORKDIR/tsdb-splicer-all-$VERSION.jar com.turn.splicer.SplicerMain --port $SPLICER_PORT --config=$WORKDIR/resources/splicer.conf"
 ENTRYPOINT /bin/bash -c "$WORKDIR/startup.sh"
