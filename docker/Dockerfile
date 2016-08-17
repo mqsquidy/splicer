@@ -14,6 +14,8 @@ RUN       mkdir -p $LOGDIR
 ENV	      CLASSPATH  $WORKDIR
 ENV	      BASE       $WORKDIR
 ENV	      SPLICER_PORT  4245
+ENV       JMX_PORT 10245
+ENV       JMX_HOSTNAME 192.168.99.100
 EXPOSE    $SPLICER_PORT
 
 ADD	      tsdb-splicer-all-$VERSION.jar $WORKDIR/
