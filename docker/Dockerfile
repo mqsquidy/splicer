@@ -16,6 +16,7 @@ ENV	      BASE       $WORKDIR
 ENV	      SPLICER_PORT  4245
 ENV       JMX_PORT 10245
 ENV       JMX_HOSTNAME 192.168.99.100
+ENV       LOGLEVEL INFO
 EXPOSE    $SPLICER_PORT
 
 ADD	      tsdb-splicer-all-$VERSION.jar $WORKDIR/
@@ -27,4 +28,4 @@ ADD	      resources $WORKDIR/resources/
 WORKDIR   $WORKDIR
 
 #ENTRYPOINT /bin/bash -c "java -server -classpath $WORKDIR/resources:$WORKDIR:$WORKDIR/tsdb-splicer-all-$VERSION.jar com.turn.splicer.SplicerMain --port $SPLICER_PORT --config=$WORKDIR/resources/splicer.conf"
-ENTRYPOINT /bin/bash -c "$WORKDIR/startup.sh"
+ENTRYPOINT ["./startup.sh"]
