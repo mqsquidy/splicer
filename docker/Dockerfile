@@ -27,5 +27,6 @@ ADD	      resources $WORKDIR/resources/
 
 WORKDIR   $WORKDIR
 
-#ENTRYPOINT /bin/bash -c "java -server -classpath $WORKDIR/resources:$WORKDIR:$WORKDIR/tsdb-splicer-all-$VERSION.jar com.turn.splicer.SplicerMain --port $SPLICER_PORT --config=$WORKDIR/resources/splicer.conf"
 ENTRYPOINT ["./startup.sh"]
+HEALTHCHECK --interval=30s --timeout=2s \
+  CMD curl -f http://localhost:$SPLICER_PORT/api/config || exit 1
