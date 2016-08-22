@@ -21,11 +21,14 @@ import com.turn.splicer.hbase.RegionUtil;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.io.File;
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +42,13 @@ public class ConfigServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException
 	{
+		String tstFileName="/tmp/sleepTest";
+		if ( new File(tstFileName).exists()) {
+			LOG.info("found sleep file {}, sleeping 5s...",tstFileName);
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {}
+		}
 		try {
 			doGetWork(request, response);
 		} catch (IOException e) {

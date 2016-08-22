@@ -33,3 +33,4 @@ build/
 ## Docker Directory
 docker/*.jar
 docker/resources
+/bin/
