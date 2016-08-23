@@ -24,4 +24,7 @@ if response_json.has_key('children'):
             versions.append(ver)
     #print versions
     sversions=sorted(versions)
-    print bump_revision(sversions[-1])
+    if len(sys.argv) > 2 and sys.argv[2] == "current":
+      print sversions[-1]
+    else:
+      print bump_revision(sversions[-1])
