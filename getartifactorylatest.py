@@ -2,6 +2,7 @@
 
 import json
 import urllib
+import sys
 
 def bump_revision(version_str):
     ver_parts = version_str.split('.')
@@ -10,7 +11,7 @@ def bump_revision(version_str):
     new_rev = int(ver_parts[2])+1
     return "{0}.{1}.{2}".format(ver_parts[0],ver_parts[1],new_rev)
 
-url="https://docker.us-east-1.aws.aol.com/artifactory/api/storage/docker-us-east-1-local/metro/tsdb-splicer"
+url="https://docker.us-east-1.aws.aol.com/artifactory/api/storage/docker-us-east-1-local/metro/%s" % sys.argv[1]
 response = urllib.urlopen(url)
 response_json = json.loads(response.read())
 
