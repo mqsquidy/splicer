@@ -24,11 +24,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +44,13 @@ public class ConfigServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException
 	{
+		String key = "logRawPostData";
+		if (StringUtils.isNotEmpty(request.getParameter(key))) {
+			String lrpd = request.getParameter(key);
+			System.setProperty(key, lrpd);
+			LOG.info("Setting system property: {}={}",key,lrpd);
+		}
+		
 		String tstFileName="/tmp/sleepTest";
 		if ( new File(tstFileName).exists()) {
 			LOG.info("found sleep file {}, sleeping 5s...",tstFileName);

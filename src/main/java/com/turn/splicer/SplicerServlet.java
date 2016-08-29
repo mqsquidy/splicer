@@ -188,6 +188,8 @@ public class SplicerServlet extends HttpServlet {
 		}
 
 		String jsonPostRequest = builder.toString();
+		if ("true".equals(System.getProperty("logRawPostData","false")))
+			LOG.info("Raw post data: {}", jsonPostRequest);
 
 		TsQuery tsQuery = TsQuerySerializer.deserializeFromJson(jsonPostRequest);
 		tsQuery.validateAndSetQuery();
