@@ -7,6 +7,7 @@ ENV       WORKDIR /usr/share/tsdb-splicer
 ENV       DATADIR /data/tsdb-splicer
 ENV       LOGDIR  /var/log/tsdb-splicer
 ENV       REDIS_HOSTS "192.168.99.100:6379"
+ENV       TSD_HOSTS "opentsdb-reader.ido.aolcloud.net"
 RUN	      mkdir -p $WORKDIR/resources
 RUN	      mkdir -p $DATADIR/cache
 RUN       mkdir -p $LOGDIR
