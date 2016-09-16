@@ -16,6 +16,7 @@
 
 package com.turn.splicer;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -24,6 +25,8 @@ import java.util.TreeMap;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.google.common.base.Splitter;
+
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,15 +45,24 @@ public class Config {
 	protected Properties properties = new Properties();
 
 	private Config() {
+		String fileNameForException=CONFIG_FILE;
 		try {
-			InputStream is = getClass().getClassLoader().getResourceAsStream(CONFIG_FILE);
+			InputStream is = null;
+			String fileName = System.getProperty("config.file");
+			if (StringUtils.isNotBlank(fileName)){
+				fileNameForException = fileName;
+				is = new FileInputStream(fileName);
+				LOG.info("Loaded config from file {}", fileName);
+			} else {
+				is = getClass().getClassLoader().getResourceAsStream(CONFIG_FILE);
+			}
 			if (is != null) {
 				LOG.info("Loaded {} bytes of configuration", is.available());
 			}
 
 			properties.load(is);
 		} catch (IOException e) {
-			LOG.error("Could not load " + CONFIG_FILE, e);
+			LOG.error("Could not load " + fileNameForException, e);
 		}
 	}
 

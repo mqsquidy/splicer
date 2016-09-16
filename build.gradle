@@ -85,7 +85,7 @@ task copyJar(type: Copy, dependsOn: fatJar) {
 
 task copyConfig(type: Copy) {
     from('src/main/resources') {
-        include '*'
+        include 'logback.xml'
     }
     into('docker/resources')
 }
