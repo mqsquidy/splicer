@@ -204,8 +204,24 @@ public class SplicerServlet extends HttpServlet {
     response.setContentType("application/json");
 
 		try (RegionChecker checker = REGION_UTIL.getRegionChecker()) {
-
+			
 			List<TSSubQuery> subQueries = new ArrayList<>(tsQuery.getQueries());
+			// check to see if metric name is BS
+			// if it is, don't go any farther, just return error
+			TSSubQuery sQ = subQueries.get(0);
+			String hostname = null;
+			String metricName = sQ.getMetric();
+			try {
+				hostname = checker.getBestRegionHost(metricName, tsQuery.startTime(), tsQuery.endTime());
+			} catch(Exception e) {}
+			if ( hostname == null){
+				LOG.debug("unable to find region host for metricName: '" + metricName + "'");
+				response.setStatus(400);
+				response.getWriter().write("{ \"error\": { \"code\": 400, \"message\":\"invalid metric name '" + metricName + "'\"}}");
+				response.getWriter().flush();
+				return;
+			}
+
 			SplicerQueryRunner queryRunner = new SplicerQueryRunner();
 
 			if (subQueries.size() == 1) {
